@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+ <script type="text/javascript">
+
+     $(function () {
+         TreeGrid();
+     });
+
+     function TreeGrid(queryData) {
+         $("#Treegrid").treegrid({
+             url: '/TreeGrid/List',
+             idField: "Id",
+             height: 400,
+             lines: true, //是否显示线
+             treeField: 'Name',
+             //animate: true,//显示动画效果
+             rownumbers: true,
+             queryParams: queryData,
+             singleSelect: true,
+             nowrap: true,
+             autoRowHeight: false,
+             striped: true,
+             //sortName: 'CreatedTime',
+             //sortOrder: 'desc',
+             remoteSort: false,
+             pagination: true,
+      
+             columns: [[
+                    //{ field: 'Id', title: '主键', width: 100 },
+                    { field: 'ck', checkbox: true },
+                    { field: 'Name', title: '姓名', width: 100, align: 'center' },
+                    { field: 'Pwd', title: '密码', width: 80, align: 'center' },
+                    { field: 'CeratedBy', title: '创建人', width: 80, align: 'center' },
+                    { field: 'CreatedTime', title: '创建时间', width: 80, align: 'center' },
+             ]],
+             toolbar: [{
+                 id: 'btnadd',
+                 text: '增加',
+                 iconCls: 'icon-add',
+                 handler: function () {
+                 
+                 }
+             }, '-', {
+                 id: 'btnedit',
+                 text: '编辑',
+                 iconCls: 'icon-edit',
+                 handler: function () {
+                  
+                 }
+             }, '-', {
+                 id: 'btnremove',
+                 text: '移除',
+                 iconCls: 'icon-remove',
+                 handler: function () {
+                 
+                 }
+             }, '-', {
+                 id: 'btnrefesh',
+                 text: '刷新',
+                 iconCls: 'icon-reload',
+                 handler: function () {
+
+                 }
+             }],
+         });
+     }
+
+ </script>
+
+@*<div id="Treegrid" class="easyui-treegrid" fit="true">
+ </div>*@
+ <table id="Treegrid" class="easyui-treegrid" data-options="fit:true">
+ </table> 

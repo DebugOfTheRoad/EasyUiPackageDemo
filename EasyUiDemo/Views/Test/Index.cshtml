@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ <script type="text/javascript">
+
+     $(function () {
+
+         //var url = "data/tree_data.json"
+         //var src = "'<ul id=\"tt\" class=\"easyui-tree\" data="+ url +" checkbox=\"true\"></ul>\'";
+
+         //data-options=\"url:'/test/tree'\" 
+         var tree_src = "<div><ul id=\"CheckTreeX\" class=\"easyui-tree\"   ></ul></div>";
+
+         AddMeueAccordionMenuLink("SubNavigationAccordion", "设置权限", tree_src);
+         var purl = createClickUrl("/TreeGrid/Index");
+ 
+         AddMeueAccordionMenuLink("SubNavigationAccordion", "权限管理", purl);
+         AddMeueAccordionMenuLink("SubNavigationAccordion", "菜单管理", "");
+         AddMeueAccordionMenuLink("SubNavigationAccordion", "角色管理", "");
+         AddMeueAccordionMenuLink("SubNavigationAccordion", "用户管理", "");
+
+         initCheckTree();
+         bindMenuClick();
+     });
+
+
+     function bindMenuClick() {
+         $(".menuLink").click( function () {
+         
+             var url = $(this).attr("src");
+       
+             var tabTitle = $(this).text().split('[')[0];
+       
+             FlushTabs("WindowTabX", tabTitle, url);
+       
+         });//function end
+     }
+
+     function createClickUrl(src) {
+         var src = " <p><a href=\"javascript:void(0)\" src=\""+ src +"\" class=\"menuLink\">权限管理</a></p>";
+         return src;
+     }
+     function initCheckTree() {
+         $("#CheckTreeX").tree({
+             checkbox: true,//是否显示checkbox
+             onlyLeafCheck: true,//是否只显示子节点checkbox
+             //cascadeCheck:true,//checkbox的级联
+             animate: true,//是否显示加载动画效果，默认false
+             lines: true, //是否显示线
+             method: 'get',
+             url: '/test/tree',
+             onLoadSuccess: function (node,data) {
+                 //初始化数据
+                 //$("#CheckTreeX").tree('collapseAll');
+                 //console.info(data);
+                
+                 $.ajax({
+                     
+                     url: '/test/Check',
+                     cache: false,
+                     dataType: 'text',
+                     success: function (data) {
+                         var array = data.split(',');
+                         for (var i = 0; i < array.length; i++) {
+                             var node = $('#CheckTreeX').tree('find', array[i]);
+                             //console.info(array[i]);
+                             $('#CheckTreeX').tree('check', node.target);
+                             //console.info(node.target);
+                         }
+                     }
+                 })
+                 
+             },
+             onClick:function(node){
+                 alert(node.text);
+                 //console.info(node);
+             },
+//              onDblClick: function (node) {
+//                  alert(node.text);
+//                  console.info(node);
+//              },
+             onLoadError: function (jqXHR, textStatus, errorThrow) {
+                 $.messager.alert("操作提示", "操作失败！<br/>" + textStatus + ":" + errorThrow, "error");
+             }
+            
+         });
+         
+     }//function end
+
+
+     function getChecked() {
+         var nodes = $('#CheckTreeX').tree('getChecked');
+         var s = '';
+         for (var i = 0; i < nodes.length; i++) {
+             if (s != '') s += ',';
+             s += nodes[i].Id;
+         }
+         console.info(s);
+     }
+ </script>
+<body class="easyui-layout">
+
+    <div id="MenuNavigation" data-options="region:'west',title:'@ViewBag.MenueName',split:true" style="width:150px; text-align:center">
+        <div id="SubNavigationAccordion" class="easyui-accordion" style="text-align:center">
+          
+        </div>
+    </div>
+
+     <div id="TabContent" data-options="region:'center'@*,title:'center title'*@" style="padding:0px;background:#eee;" >
+        @* <div id="WindowTab" class="easyui-tabs" data-optons="tools:'#tab-tools',fit:'true',border:'false'">*@
+   
+     
+       <div id="WindowTabX" class="easyui-tabs" fit="true" border="false"></div>
+  
+    </div>
+
+    </body>

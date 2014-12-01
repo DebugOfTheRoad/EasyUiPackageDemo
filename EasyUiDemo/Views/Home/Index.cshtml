@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "主页";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+ <script type="text/javascript">
+
+     $(function () {
+         AddTabs("WindowTab", "主页", "/Test/Index");
+         AddMeueAccordionMenuLink("NavigationAccordion", "test", "http://www.baidu.com");
+     });
+ </script>
+
+
+<body class="easyui-layout">
+    <!-- Home header -->
+    <div data-options="region:'north',split:false" style="height:40px;background-image:url(../../images/Ui/Header_bk_pic.jpg);background-repeat: repeat-x;">
+
+    </div>
+    
+    
+    <!-- Home Left menu-->
+    <div id="MenuNavigation" data-options="region:'west',title:'菜单导航',split:true" style="width:200px; ">
+        <div id="NavigationAccordion" name="NavigationAccordion" class="easyui-accordion" style="text-align:center">
+
+        </div>
+    </div>
+    
+    <!-- Home Conent layout -->
+    <div id="TabContent" data-options="region:'center'@*,title:'center title'*@" style="padding:0px;background:#eee;" >
+        @* <div id="WindowTab" class="easyui-tabs" data-optons="tools:'#tab-tools',fit:'true',border:'false'">*@
+   
+     
+       <div id="WindowTab" class="easyui-tabs" fit="true" border="false"></div>
+  
+    </div>
+
+    <!-- Home Footer -->
+    <div data-options="region:'south',border:false" style="height: 20px; background: #A9FACD; text-align: center;font-family:'Microsoft YaHei'">
+        © @DateTime.Now.Year DebugMan, Inc. All rights reserved.
+    </div>
+</body>
